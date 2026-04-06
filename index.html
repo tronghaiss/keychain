@@ -8,66 +8,68 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Chewy&family=Varela+Round&family=Baloo+2:wght@700;800&family=Kanit:wght@700;900&family=Comfortaa:wght@700&family=Quicksand:wght@700&family=Fredoka:wght@700&family=Pacifico&family=Dancing+Script&family=Agbalumo&family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@800&family=Montserrat:wght@900&display=swap" rel="stylesheet">
   
   <style>
-    body { font-family: 'Inter', system-ui, sans-serif; background-color: #f1f5f9; color: #1e293b; }
-    canvas { 
-      image-rendering: crisp-edges; 
+    body { 
+      font-family: 'Inter', system-ui, sans-serif; 
+      background-color: #f1f5f9; 
+      color: #1e293b;
+      overflow-x: hidden; /* Chặn kéo ngang trang */
+    }
+    #canvas { 
+      image-rendering: auto; 
       background-color: white;
       border-radius: 12px;
       box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      max-width: 100%; /* Đảm bảo canvas không tràn màn hình điện thoại */
+      height: auto;
     }
     select optgroup { font-weight: bold; color: #334155; }
   </style>
 </head>
-<body class="min-h-screen pb-40"> <div class="max-w-md mx-auto">
-    <div class="flex flex-col items-center justify-center pt-10 pb-6">
-      <h1 class="text-3xl font-black text-slate-800 tracking-tight">Keychain Maker</h1>
-      <p class="text-slate-400 text-sm">Thiết kế móc khóa chuyên nghiệp</p>
+<body class="min-h-screen pb-40">
+
+  <div class="max-w-md mx-auto px-4">
+    <div class="flex flex-col items-center justify-center pt-8 pb-4">
+      <h1 class="text-2xl font-black text-slate-800 tracking-tight">Keychain Maker</h1>
+      <p class="text-slate-400 text-xs">Thiết kế móc khóa chuyên nghiệp</p>
     </div>
 
-    <div class="px-6 pb-8">
-      <canvas id="canvas" width="380" height="180" class="mx-auto block"></canvas>
+    <div class="flex justify-center mb-6">
+      <canvas id="canvas" width="380" height="180"></canvas>
     </div>
 
-    <div class="px-6 space-y-5">
-      
+    <div class="space-y-5">
       <div>
-        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Tên móc khóa</label>
+        <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">Tên móc khóa</label>
         <input id="name" type="text" value="Name" 
-               class="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-3xl font-black text-center tracking-widest text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all"
+               class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-4 text-2xl font-black text-center tracking-widest text-slate-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500"
                oninput="updatePreview()">
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Kiểu chữ</label>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">Kiểu chữ</label>
           <select id="font" onchange="updatePreview()" 
-                  class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-4 text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-500">
+                  class="w-full bg-white border border-slate-200 rounded-xl px-2 py-3 text-sm font-medium shadow-sm focus:outline-none">
             <optgroup label="Nghệ thuật">
               <option value="Pacifico" selected>Pacifico</option>
               <option value="Agbalumo">Agbalumo</option>
               <option value="Press Start 2P">Pixel 8-bit</option>
             </optgroup>
-            <optgroup label="Dễ thương & Tròn">
+            <optgroup label="Dễ thương">
               <option value="Nunito">Nunito</option>
               <option value="Fredoka">Fredoka</option>
-              <option value="Baloo 2">Baloo 2</option>
               <option value="Comfortaa">Comfortaa</option>
-              <option value="Varela Round">Varela Round</option>
-              <option value="Chewy">Chewy</option>
             </optgroup>
-            <optgroup label="Mạnh mẽ & Đậm">
+            <optgroup label="Mạnh mẽ">
               <option value="Kanit">Kanit Bold</option>
-              <option value="Montserrat">Montserrat Black</option>
-              <option value="Plus Jakarta Sans">Jakarta Sans</option>
-              <option value="Arial Black">Arial Black</option>
+              <option value="Montserrat">Montserrat</option>
             </optgroup>
           </select>
         </div>
-
         <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Lỗ khoen</label>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">Lỗ khoen</label>
           <select id="holePos" 
-                  class="w-full bg-slate-100 border border-slate-200 rounded-2xl px-4 py-4 text-base font-bold text-slate-800 shadow-sm focus:outline-none">
+                  class="w-full bg-slate-100 border border-slate-200 rounded-xl px-2 py-3 text-sm font-bold text-slate-800 focus:outline-none">
             <option value="Ở TRÊN">Ở TRÊN</option>
             <option value="BÊN TRÁI">BÊN TRÁI</option>
             <option value="KHÔNG">KHÔNG KHOEN</option>
@@ -75,56 +77,49 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Màu viền</label>
-          <select id="borderColor" onchange="updatePreview()" 
-                  class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-4 shadow-sm focus:outline-none">
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">Màu viền</label>
+          <select id="borderColor" onchange="updatePreview()" class="w-full bg-white border border-slate-200 rounded-xl px-2 py-3 text-sm shadow-sm">
             <option value="#000000" selected>Đen</option>
             <option value="#ffffff">Trắng</option>
             <option value="#EF4444">Đỏ</option>
             <option value="#F5F5DC">Be</option>
-            <option value="#9CA3AF">Xám</option>
-            <option value="#64eace">Xanh Lá Mint</option>
+            <option value="#64eace">Xanh Mint</option>
           </select>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Màu chữ</label>
-          <select id="textColor" onchange="updatePreview()" 
-                  class="w-full bg-white border border-slate-200 rounded-2xl px-4 py-4 shadow-sm focus:outline-none">
-                        <option value="#ffffff"selected>Trắng</option>
-                  <option value="#000000" >Đen</option>
+          <label class="block text-xs font-bold text-slate-500 uppercase mb-1.5 ml-1">Màu chữ</label>
+          <select id="textColor" onchange="updatePreview()" class="w-full bg-white border border-slate-200 rounded-xl px-2 py-3 text-sm shadow-sm">
+            <option value="#ffffff" selected>Trắng</option>
+            <option value="#000000">Đen</option>
             <option value="#EF4444">Đỏ</option>
-            <option value="#F5F5DC">Be</option>
-            <option value="#9CA3AF">Xám</option>
-            <option value="#64eace">Xanh Lá Mint</option>
+            <option value="#64eace">Xanh Mint</option>
           </select>
         </div>
       </div>
 
       <div>
         <div class="flex justify-between items-center mb-2">
-          <label class="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Độ dày viền bo</label>
-          <span id="borderVal" class="font-mono font-bold text-slate-800 bg-slate-200 px-3 py-1 rounded-full text-sm">8</span>
+          <label class="text-xs font-bold text-slate-500 uppercase ml-1">Độ dày viền bo</label>
+          <span id="borderVal" class="font-mono font-bold text-slate-800 bg-slate-200 px-2 py-1 rounded-lg text-xs">8</span>
         </div>
         <input type="range" id="border" min="8" max="40" value="8" step="1"
                oninput="document.getElementById('borderVal').textContent = this.value; updatePreview()" 
-               class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-800">
+               class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-800">
       </div>
 
       <div class="text-center py-4 space-y-1">
-        <p class="text-slate-600 font-medium">Hãy lưu ảnh lại và gửi cho chúng mình nhé</p>
-        <p class="text-slate-500 text-sm">Nếu như viền có bị hở trắng thì không sao nha</p>
-        <p class="text-slate-500 text-sm">cảm ơn bạn đã ủng hộ !!</p>
+        <p class="text-slate-600 font-bold text-sm">Hãy lưu ảnh lại và gửi cho chúng mình nhé</p>
+        <p class="text-slate-400 text-[11px]">Nếu viền có bị hở trắng nhẹ thì không sao nha</p>
+        <p class="text-slate-500 text-xs font-medium">Cảm ơn bạn đã ủng hộ !!</p>
       </div>
-      
-      <input type="hidden" id="style" value="bold">
     </div>
 
     <div class="fixed bottom-6 left-0 right-0 max-w-md mx-auto px-6">
       <button onclick="downloadJPG()" 
-              class="w-full bg-slate-800 hover:bg-slate-900 text-white py-5 rounded-3xl text-lg font-bold shadow-xl shadow-slate-300 flex items-center justify-center gap-3 transition-all active:scale-95">
-        <span>📸</span> TẢI ẢNH 
+              class="w-full bg-slate-800 hover:bg-slate-900 text-white py-4 rounded-2xl text-lg font-bold shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-transform">
+        <span>📸</span> TẢI ẢNH THIẾT KẾ
       </button>
     </div>
   </div>
@@ -133,93 +128,101 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    document.fonts.ready.then(() => {
-      updatePreview();
-    });
+    // Hàm vẽ CHÍNH - Dùng chung cho cả xem và tải
+    function drawCore(targetCtx, name, font, bColor, tColor, bValue, w, h) {
+      targetCtx.clearRect(0, 0, w, h);
+      
+      const cx = w / 2;
+      const cy = h / 2 + 5;
+      let baseSize = 85;
+      const maxWidth = w - 60;
+
+      targetCtx.letterSpacing = "7px";
+      targetCtx.font = `bold ${baseSize}px "${font}"`;
+      
+      let textWidth = targetCtx.measureText(name).width;
+      while (textWidth > maxWidth && baseSize > 10) {
+        baseSize -= 2;
+        targetCtx.font = `bold ${baseSize}px "${font}"`;
+        textWidth = targetCtx.measureText(name).width;
+      }
+
+      targetCtx.textAlign = "center";
+      targetCtx.textBaseline = "middle";
+
+      // Vẽ viền bo
+      const strokeSize = bValue * (baseSize / 20);
+      targetCtx.strokeStyle = bColor;
+      targetCtx.lineWidth = strokeSize;
+      targetCtx.lineJoin = "round";
+      targetCtx.lineCap = "round";
+      targetCtx.strokeText(name, cx, cy);
+
+      // Vẽ chữ chính
+      targetCtx.fillStyle = tColor;
+      targetCtx.fillText(name, cx, cy);
+      targetCtx.fillText(name, cx, cy - (baseSize * 0.01));
+    }
 
     function updatePreview() {
       const name = document.getElementById('name').value || "Name";
-      const fontFamily = document.getElementById('font').value;
+      const font = document.getElementById('font').value;
       const bColor = document.getElementById('borderColor').value;
       const tColor = document.getElementById('textColor').value;
+      const bValue = parseFloat(document.getElementById('border').value);
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const cx = canvas.width / 2;
-      const cy = canvas.height / 2 + 5;
-      
-      let baseSize = 85;
-      const maxWidth = canvas.width - 70;
-      
-      ctx.letterSpacing = "7px"; 
-
-      ctx.font = `bold ${baseSize}px "${fontFamily}"`;
-      let textWidth = ctx.measureText(name).width;
-
-      while (textWidth > maxWidth && baseSize > 10) {
-        baseSize -= 2;
-        ctx.font = `bold ${baseSize}px "${fontFamily}"`;
-        textWidth = ctx.measureText(name).width;
-      }
-
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      const borderValue = parseFloat(document.getElementById('border').value);
-      const strokeSize = borderValue * (baseSize / 20); 
-
-      ctx.strokeStyle = bColor; 
-      ctx.lineWidth = strokeSize;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
-      ctx.strokeText(name, cx, cy);
-
-      ctx.fillStyle = tColor;
-      ctx.fillText(name, cx, cy);
-      ctx.fillText(name, cx, cy - (baseSize * 0.01));
+      drawCore(ctx, name, font, bColor, tColor, bValue, canvas.width, canvas.height);
     }
 
     function downloadJPG() {
       const tempCanvas = document.createElement('canvas');
       const tCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = canvas.width;
-      tempCanvas.height = canvas.height + 90;
+      tempCanvas.width = 380;
+      tempCanvas.height = 280; // Cao hơn để chứa thông tin
 
+      // Nền trắng cho JPG
       tCtx.fillStyle = "#FFFFFF";
       tCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-      
-      tCtx.letterSpacing = "7px";
-      tCtx.drawImage(canvas, 0, 0);
 
       const name = document.getElementById('name').value || "Name";
       const font = document.getElementById('font').value;
-      const border = document.getElementById('border').value;
+      const bColor = document.getElementById('borderColor').value;
+      const tColor = document.getElementById('textColor').value;
+      const bValue = parseFloat(document.getElementById('border').value);
       const hole = document.getElementById('holePos').value;
-      const bColorName = document.getElementById('borderColor').options[document.getElementById('borderColor').selectedIndex].text;
-      const tColorName = document.getElementById('textColor').options[document.getElementById('textColor').selectedIndex].text;
 
-      tCtx.strokeStyle = "#e2e8f0";
-      tCtx.lineWidth = 2;
+      // Vẽ phần thiết kế móc khóa
+      drawCore(tCtx, name, font, bColor, tColor, bValue, 380, 180);
+
+      // Vẽ thông tin bổ sung bên dưới
+      tCtx.letterSpacing = "0px";
+      tCtx.strokeStyle = "#cbd5e1";
+      tCtx.lineWidth = 1;
       tCtx.beginPath();
-      tCtx.moveTo(20, canvas.height);
-      tCtx.lineTo(tempCanvas.width - 20, canvas.height);
+      tCtx.moveTo(20, 185);
+      tCtx.lineTo(360, 185);
       tCtx.stroke();
 
-      tCtx.letterSpacing = "0px";
       tCtx.textAlign = "left";
-      tCtx.fillStyle = "#ef4444"; 
+      tCtx.fillStyle = "#ef4444";
       tCtx.font = "bold 16px Arial";
-      tCtx.fillText(`VỊ TRÍ KHOAN: ${hole}`, 25, canvas.height + 30);
+      tCtx.fillText(`KHOAN: ${hole}`, 25, 215);
+
+      tCtx.fillStyle = "#64748b";
+      tCtx.font = "13px Arial";
+      tCtx.fillText(`Font: ${font} | Viền bo: ${bValue}`, 25, 240);
       
-      tCtx.fillStyle = "#475569";
-      tCtx.font = "14px Arial";
-      tCtx.fillText(`Font: ${font} | Viền bo: ${border}`, 25, canvas.height + 55);
-      tCtx.fillText(`Màu: Viền ${bColorName} - Chữ ${tColorName}`, 25, canvas.height + 75);
+      const bColorName = document.getElementById('borderColor').options[document.getElementById('borderColor').selectedIndex].text;
+      const tColorName = document.getElementById('textColor').options[document.getElementById('textColor').selectedIndex].text;
+      tCtx.fillText(`Màu: Viền ${bColorName} / Chữ ${tColorName}`, 25, 260);
 
       const link = document.createElement('a');
-      link.download = `KeyChain_${name}_Khoan_${hole}.jpg`;
-      link.href = tempCanvas.toDataURL('image/jpeg', 0.95);
+      link.download = `Keychain_${name}.jpg`;
+      link.href = tempCanvas.toDataURL('image/jpeg', 0.9);
       link.click();
     }
+
+    document.fonts.ready.then(updatePreview);
   </script>
 </body>
 </html>
